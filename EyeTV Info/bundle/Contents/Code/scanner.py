@@ -6,12 +6,14 @@ liveSuffix  = "Live TV Buffer.eyetv"
 videoSuffix = ".mpg"  # Use .m4v if you needed
 
 def ScanTVShow(path, files, mediaList, subdirs):
-    """Scans the path for an EyeTV recording of the given genre.
+    """Scans the path for an EyeTV recording of a TV show.
    
     An EyeTV recording consists of the actual video file(s) and a set
-    of metadata files.  First makes sure that the given files do exist.
-    Then inspect the metadata to see if the recording belongs to the
-    desired genre.
+    of metadata files. If all the files exist, then parse the .eyetvp file
+	for	pertinent info.
+	Based on UK EPG data, the episode number (but not the series number)
+	often appears first in the abstract, in the format ([Episode]/[Series Length]).
+	If so, this is parsed out and sent to Plex (with the series number set as 1)
 
     """
     if len(files) < 1:
@@ -45,14 +47,14 @@ def ScanTVShow(path, files, mediaList, subdirs):
         mediaList.append(episode)
 
 def ScanMovie(path, files, mediaList, subdirs):
-    """Scans the path for an EyeTV recording of the given genre.
+    """Scans the path for an EyeTV recording of a movie.
 
     
     An EyeTV recording consists of the actual video file(s) and a set
-    of metadata files.  First makes sure that the given files do exist.
-    Then inspect the metadata to see if the recording belongs to the
-    desired genre.
-
+    of metadata files.  If all the files exist, then parse the .eyetvp file
+	for	pertinent info.
+	Based on UK EPG data, the year of the movie often appears in the abstract
+	surrounded by parenthesis.  If so, this is parsed out and sent to Plex.
     """
     if len(files) < 1:
         return
